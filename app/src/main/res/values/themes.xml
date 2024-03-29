@@ -3,6 +3,7 @@
     <style name="Base.Theme.Cmpe277_hackathon" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/material_dynamic_primary0</item>
     </style>
 
     <style name="Theme.Cmpe277_hackathon" parent="Base.Theme.Cmpe277_hackathon" />
