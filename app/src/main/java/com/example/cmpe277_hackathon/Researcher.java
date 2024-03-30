@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class Researcher extends AppCompatActivity {
 
     Spinner spinner;
-    String[] countries = {"Select","USA", "IN", "CN"};
+    String[] countries = {"Select","USA", "India", "China"};
     FrameLayout frameLayout;
     Button show;
     private String selectedCountry = "Select";
@@ -60,7 +60,7 @@ public class Researcher extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selectedCountry = countries[position];
+                selectedCountry = countries[position];
                 // Handle selected country
                 if (!selectedCountry.equals("Select")) {
                     Toast.makeText(Researcher.this, "Selected: " + selectedCountry, Toast.LENGTH_SHORT).show();
@@ -83,11 +83,17 @@ public class Researcher extends AppCompatActivity {
         macrobtn.setOnClickListener(view -> {
 
             frameLayout.removeAllViews();
+            selectedCheckboxes.clear();
             View checkboxView = LayoutInflater.from(this).inflate(R.layout.checkbox_layout,null);
             show = checkboxView.findViewById(R.id.show);
             show.setOnClickListener(view2 -> {
-                frameLayout.removeAllViews();
-                replaceFragment(new GraphFragment());
+                if (selectedCountry.equals("Select")) {
+                    Toast.makeText(Researcher.this, "Select Country", Toast.LENGTH_SHORT).show();
+                } else {
+                    frameLayout.removeAllViews();
+                    replaceFragment(new GraphFragment(selectedCountry, selectedCheckboxes));
+                }
+
             });
             LinearLayout checkboxContainer = checkboxView.findViewById(R.id.checkboxContainer);
             addMacroCheckBoxes(checkboxContainer);
@@ -97,11 +103,16 @@ public class Researcher extends AppCompatActivity {
 
         agrbtn.setOnClickListener(view -> {
             frameLayout.removeAllViews();
+            selectedCheckboxes.clear();
             View checkboxView = LayoutInflater.from(this).inflate(R.layout.checkbox_layout,null);
             show = checkboxView.findViewById(R.id.show);
             show.setOnClickListener(view2 -> {
-                frameLayout.removeAllViews();
-                replaceFragment(new GraphFragment());
+                if (selectedCountry.equals("Select")) {
+                    Toast.makeText(Researcher.this, "Select Country", Toast.LENGTH_SHORT).show();
+                } else {
+                    frameLayout.removeAllViews();
+                    replaceFragment(new GraphFragment(selectedCountry, selectedCheckboxes));
+                }
             });
             LinearLayout checkboxContainer = checkboxView.findViewById(R.id.checkboxContainer);
             addAgricultureCheckBoxes(checkboxContainer);
@@ -110,11 +121,16 @@ public class Researcher extends AppCompatActivity {
 
         tradebtn.setOnClickListener(view -> {
             frameLayout.removeAllViews();
+            selectedCheckboxes.clear();
             View checkboxView = LayoutInflater.from(this).inflate(R.layout.checkbox_layout,null);
             show = checkboxView.findViewById(R.id.show);
             show.setOnClickListener(view2 -> {
-                frameLayout.removeAllViews();
-                replaceFragment(new GraphFragment());
+                if (selectedCountry.equals("Select")) {
+                    Toast.makeText(Researcher.this, "Select Country", Toast.LENGTH_SHORT).show();
+                } else {
+                    frameLayout.removeAllViews();
+                    replaceFragment(new GraphFragment(selectedCountry, selectedCheckboxes));
+                }
             });
             LinearLayout checkboxContainer = checkboxView.findViewById(R.id.checkboxContainer);
             addTradeCheckBoxes(checkboxContainer);
@@ -133,6 +149,13 @@ public class Researcher extends AppCompatActivity {
         for (String label : checkboxLabels) {
             CheckBox checkBox = new CheckBox(this);
             checkBox.setText(label);
+            checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    selectedCheckboxes.add(label);
+                } else {
+                    selectedCheckboxes.remove(label);
+                }
+            });
             container.addView(checkBox);
         }
     }
@@ -141,6 +164,13 @@ public class Researcher extends AppCompatActivity {
         for (String label : checkboxLabels) {
             CheckBox checkBox = new CheckBox(this);
             checkBox.setText(label);
+            checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    selectedCheckboxes.add(label);
+                } else {
+                    selectedCheckboxes.remove(label);
+                }
+            });
             container.addView(checkBox);
         }
     }
@@ -149,6 +179,13 @@ public class Researcher extends AppCompatActivity {
         for (String label : checkboxLabels) {
             CheckBox checkBox = new CheckBox(this);
             checkBox.setText(label);
+            checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    selectedCheckboxes.add(label);
+                } else {
+                    selectedCheckboxes.remove(label);
+                }
+            });
             container.addView(checkBox);
         }
     }
@@ -158,5 +195,11 @@ public class Researcher extends AppCompatActivity {
         transaction.replace(R.id.researcherFrameLayout, fragment);
         transaction.addToBackStack(null); // Optional: Add to back stack for back navigation
         transaction.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        selectedCheckboxes.clear();
     }
 }
