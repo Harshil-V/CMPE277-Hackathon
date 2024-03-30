@@ -3,7 +3,6 @@ package com.example.cmpe277_hackathon;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.anychart.AnyChart;
@@ -82,7 +80,7 @@ public class GraphFragment extends Fragment {
         fileNames.put("Agricultural Contribution (% GDP)","Contribution_Agriculture.csv");
         fileNames.put("Manufacturing(%GDP)","Manufacturing(%GDP).csv");
         fileNames.put("Agriculture, forestry, and fishing, value added (annual % growth)","AFFNG.csv");
-        fileNames.put("Fertilizer consumption (kilograms per hectare of arable land)", "Fertilizer_consumption(kilograms_per_hectare_of_arable_land).csv");
+        fileNames.put("Fertilizer consumption (kilograms per hectare of arable land)", "Fertilizer_consumption_old(kilograms_per_hectare_of_arable_land).csv");
         fileNames.put("Fertilizer consumption (% of fertilizer production)", "Fertilizer_consumption(%offertilizerproduction).csv");
         fileNames.put("Total reserves in months of imports","TotalReservesInMonthsPerImport.csv");
         fileNames.put("Total reserves (includes gold, current US$)","TotalReservesInMonthsPerImport.csv");
@@ -318,7 +316,7 @@ public class GraphFragment extends Fragment {
     }
     private void drawChart(List<List<DataEntry>> allDatasets) {
         cartesian.removeAllSeries();
-        cartesian.yAxis(0).labels().format("{%Value}{scale:(1000)(1)(1000000)(1e-6)|(k)(M)(G)(µ)}");
+//        cartesian.yAxis(0).labels().format("{%Value}{scale:(1000)(1)(1000000)(1e-6)|(k)(M)(G)(µ)}");
         cartesian.xAxis(0).labels().enabled(true);
         cartesian.yAxis(0).labels().enabled(true);
         cartesian.xAxis(0).title("Year");
