@@ -1,12 +1,18 @@
 package com.example.cmpe277_hackathon;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -32,14 +38,24 @@ public class GraphFragment extends Fragment {
     Cartesian cartesian;
     AnyChartView anyChartView;
     List<DataEntry> data;
+    Button addAnnotation;
     boolean isFirstRow = true;
+
+    private DatabaseHelper dbHelper;
+    private String FILE_NAME = "GDP(USD).csv";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.graph_layout, container, false);
+
+        dbHelper = new DatabaseHelper(getActivity());
+
+
         startYear = rootView.findViewById(R.id.startYear);
         endYear = rootView.findViewById(R.id.endYear);
         anyChartView = rootView.findViewById(R.id.any_chart_view);
+        addAnnotation = rootView.findViewById(R.id.addAnnt);
+
 
 //        Cartesian cartesian = AnyChart.line();
 //        List<DataEntry> data = parseCSVFile();
@@ -83,6 +99,25 @@ public class GraphFragment extends Fragment {
             }
         });
 
+        addAnnotation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddItemDialog(getActivity());
+//                dbHelper.insertRecord(FILE_NAME, "YourAnnotationTextHere");
+            }
+        });
+
+        addAnnotation.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                showAnnotationsForGraph(getActivity(), FILE_NAME);
+                return true;
+            }
+        });
+
+
+
 //        int start = Integer.parseInt(startYear.getText().toString());
 //        int end = Integer.parseInt(endYear.getText().toString());
 //        List<DataEntry> filteredData = filterDataByYear(data, start, end);
@@ -112,6 +147,71 @@ public class GraphFragment extends Fragment {
 
 
         return rootView;
+    }
+
+    private void showAddItemDialog(Context context) {
+
+        final EditText annotationTextInput = new EditText(context);
+        annotationTextInput.setHint("Annotation Text");
+
+        LinearLayout layout = new LinearLayout(context);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.addView(annotationTextInput);
+
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setTitle("Add New Annotation")
+                .setView(layout)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        String annotationText = annotationTextInput.getText().toString();
+                        dbHelper.insertRecord(FILE_NAME, annotationText);
+                        Toast.makeText(context, "Annotation Saved", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .create();
+        dialog.show();
+    }
+
+    private void showGraphNameInputDialog(Context context) {
+
+
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setTitle("View Annotations")
+                .setMessage("Enter the graph name to view its annotations:")
+
+                .setPositiveButton("View", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        List<String> annotations = dbHelper.getAnnotationsByGraphName(FILE_NAME);
+                        showAnnotationsDialog(context, annotations);
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .create();
+        dialog.show();
+    }
+
+    private void showAnnotationsDialog(Context context, List<String> annotations) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Annotations");
+
+        // Convert the list of annotations to a CharSequence array
+        CharSequence[] annotationsArray = annotations.toArray(new CharSequence[0]);
+
+        builder.setItems(annotationsArray, null);
+
+        builder.setPositiveButton("OK", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showAnnotationsForGraph(Context context, String fileName) {
+        List<String> annotations = dbHelper.getAnnotationsByGraphName(fileName);
+        showAnnotationsDialog(context, annotations);
     }
 
     private void loadDataAndDrawChart() {

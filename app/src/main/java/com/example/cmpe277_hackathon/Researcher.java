@@ -124,6 +124,8 @@ public class Researcher extends AppCompatActivity {
         openai.setOnClickListener(view -> {
             frameLayout.removeAllViews();
             replaceFragment(new ChatGPTFragment());
+//            Intent intent = new Intent(this, ChatGPT.class);
+//            startActivity(intent);
 
         });
     }
