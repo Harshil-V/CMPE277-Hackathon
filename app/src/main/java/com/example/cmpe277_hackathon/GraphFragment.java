@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -25,11 +26,14 @@ import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Cartesian;
 import com.anychart.charts.Pie;
 
+import org.jetbrains.annotations.Contract;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GraphFragment extends Fragment {
@@ -45,24 +49,23 @@ public class GraphFragment extends Fragment {
     private DatabaseHelper dbHelper;
     private String FILE_NAME = "GDP(USD).csv";
 
-    private int currentAnnotation;
-
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.graph_layout, container, false);
 
         dbHelper = new DatabaseHelper(getActivity());
-        currentAnnotation = dbHelper.getAnnotationsCount(FILE_NAME);
+//        int currentAnnotation = dbHelper.getAnnotationsCount(FILE_NAME);
 
         startYear = rootView.findViewById(R.id.startYear);
         endYear = rootView.findViewById(R.id.endYear);
         anyChartView = rootView.findViewById(R.id.any_chart_view);
         addAnnotation = rootView.findViewById(R.id.addAnnt);
 
-        if (currentAnnotation > 0) {
-            addAnnotation.setText(addAnnotation.getText().toString() + " (" + currentAnnotation + ")");
-        }
+        updateAnnotationButtonText();
+
+//        List<String> listOfStrings = Arrays.asList("banana", "apple", "orange");
+//        String sortedString = sortCharactersInStringList(listOfStrings);
 
 //        Cartesian cartesian = AnyChart.line();
 //        List<DataEntry> data = parseCSVFile();
@@ -106,21 +109,14 @@ public class GraphFragment extends Fragment {
             }
         });
 
-        addAnnotation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAddItemDialog(getActivity());
-//                dbHelper.insertRecord(FILE_NAME, "YourAnnotationTextHere");
-            }
+        addAnnotation.setOnClickListener(v -> {
+            showAddItemDialog(getActivity());
+
         });
 
-        addAnnotation.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-
-                showAnnotationsForGraph(getActivity(), FILE_NAME);
-                return true;
-            }
+        addAnnotation.setOnLongClickListener(v -> {
+            showAnnotationsForGraph(getActivity(), FILE_NAME);
+            return true;
         });
 
 
@@ -156,6 +152,14 @@ public class GraphFragment extends Fragment {
         return rootView;
     }
 
+
+    private void updateAnnotationButtonText() {
+        // This assumes you have a method `getAnnotationsCount` that returns the count of annotations
+        int currentAnnotationCount = dbHelper.getAnnotationsCount(FILE_NAME);
+        if (currentAnnotationCount > 0) {
+            addAnnotation.setText("Add Annotation (" + currentAnnotationCount + ")");
+        }
+    }
     private void showAddItemDialog(Context context) {
 
         final EditText annotationTextInput = new EditText(context);
@@ -165,48 +169,42 @@ public class GraphFragment extends Fragment {
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.addView(annotationTextInput);
 
-        AlertDialog dialog = new AlertDialog.Builder(context)
+        @SuppressLint("SetTextI18n") AlertDialog dialog = new AlertDialog.Builder(context)
                 .setTitle("Add New Annotation")
                 .setView(layout)
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                .setPositiveButton("Save", (dialog1, which) -> {
 
-                        String annotationText = annotationTextInput.getText().toString();
-                        dbHelper.insertRecord(FILE_NAME, annotationText);
-                        Toast.makeText(context, "Annotation Saved", Toast.LENGTH_LONG).show();
-                    }
+                    String annotationText = annotationTextInput.getText().toString();
+                    dbHelper.insertRecord(FILE_NAME, annotationText);
+                    Toast.makeText(context, "Annotation Saved", Toast.LENGTH_LONG).show();
+                    updateAnnotationButtonText();
                 })
                 .setNegativeButton("Cancel", null)
                 .create();
         dialog.show();
     }
 
-    private void showGraphNameInputDialog(Context context) {
+//    private void showGraphNameInputDialog(Context context) {
+//
+//
+//        AlertDialog dialog = new AlertDialog.Builder(context)
+//                .setTitle("View Annotations")
+//                .setMessage("Enter the graph name to view its annotations:")
+//
+//                .setPositiveButton("View", (dialog1, which) -> {
+//
+//                    List<String> annotations = dbHelper.getAnnotationsByGraphName(FILE_NAME);
+//                    showAnnotationsDialog(context, annotations);
+//                })
+//                .setNegativeButton("Cancel", null)
+//                .create();
+//        dialog.show();
+//    }
 
-
-        AlertDialog dialog = new AlertDialog.Builder(context)
-                .setTitle("View Annotations")
-                .setMessage("Enter the graph name to view its annotations:")
-
-                .setPositiveButton("View", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        List<String> annotations = dbHelper.getAnnotationsByGraphName(FILE_NAME);
-                        showAnnotationsDialog(context, annotations);
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .create();
-        dialog.show();
-    }
-
-    private void showAnnotationsDialog(Context context, List<String> annotations) {
+    private void showAnnotationsDialog(Context context, @NonNull List<String> annotations) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Annotations");
 
-        // Convert the list of annotations to a CharSequence array
         CharSequence[] annotationsArray = annotations.toArray(new CharSequence[0]);
 
         builder.setItems(annotationsArray, null);
@@ -270,6 +268,28 @@ public class GraphFragment extends Fragment {
 
         anyChartView.setChart(cartesian);
     }
+
+    /**
+     * Takes a list of strings, concatenates them into one string, sorts the characters,
+     * and returns the sorted string.
+     *
+     * @param listOfStrings The list of strings to process.
+     * @return A sorted string containing all characters from the list.
+     */
+    @NonNull
+    @Contract("_ -> new")
+    public static String sortCharactersInStringList(@NonNull List<String> listOfStrings) {
+        StringBuilder combinedString = new StringBuilder();
+        for (String str : listOfStrings) {
+            combinedString.append(str);
+        }
+
+        char[] charArray = combinedString.toString().toCharArray();
+        Arrays.sort(charArray);
+
+        return new String(charArray);
+    }
+
 //    private List<DataEntry> filterDataByYear(List<DataEntry> data, int startYear, int endYear) {
 //        List<DataEntry> filteredData = new ArrayList<>();
 //        for (DataEntry entry : data) {
