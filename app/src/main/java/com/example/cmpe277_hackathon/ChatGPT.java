@@ -135,21 +135,25 @@ public class ChatGPT extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            try {
-                JSONObject jsonResponse = new JSONObject(result);
-                String responseText = jsonResponse.optString("response", "No response found");
-                if (listener != null) {
-                    listener.onResponseReceived(responseText.trim());
-                }
-
-            } catch (Exception e) {
-                Log.e("Exception: ", String.valueOf(e));
-                if (listener != null) {
-                    listener.onResponseReceived("Error parsing response: " + e.getMessage());
-                }
-
-            }
-
+            listener.onResponseReceived(result.trim());
+//            if (listener != null) {
+//                listener.onResponseReceived(result.trim());
+//            }
+//            try {
+//                JSONObject jsonResponse = new JSONObject(result);
+//                String responseText = jsonResponse.optString("response", "No response found");
+//                if (listener != null) {
+//                    listener.onResponseReceived(responseText.trim());
+//                }
+//
+//            } catch (Exception e) {
+//                Log.e("Exception: ", String.valueOf(e));
+//                if (listener != null) {
+//                    listener.onResponseReceived("Error parsing response: " + e.getMessage());
+//                }
+//
+//            }
+//
 
 
     }

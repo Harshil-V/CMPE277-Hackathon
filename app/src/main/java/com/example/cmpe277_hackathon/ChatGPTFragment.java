@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
@@ -132,15 +133,13 @@ public class ChatGPTFragment extends Fragment {
                     listener.onResponseReceived(responseText.trim());
                 }
 
-            } catch (Exception e) {
+            } catch (JSONException e) {
                 Log.e("Exception: ", String.valueOf(e));
                 if (listener != null) {
                     listener.onResponseReceived("Error parsing response: " + e.getMessage());
                 }
 
             }
-
-
 
         }
     }
