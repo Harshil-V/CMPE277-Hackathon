@@ -53,14 +53,15 @@ public class GraphFragment extends Fragment {
         fileNames.put("GDP(USD)","GDP(USD).csv");
         fileNames.put("FDI Inflows(USD)","FDI_Inflows(USD).csv");
         fileNames.put("FDI Outflows(USD)","FDI_Outflows(USD).csv");
-        fileNames.put("Agricultural Contribution (% GDP)","Contribution_Agricultural.csv");
+        fileNames.put("Agricultural Contribution (% GDP)","Contribution_Agriculture.csv");
         fileNames.put("Manufacturing(%GDP)","Manufacturing(%GDP).csv");
         fileNames.put("Agriculture, forestry, and fishing, value added (annual % growth)","AFFNG.csv");
-        fileNames.put("Fertilizer consumption (kilograms per hectare of arable land)","FertilizerConsumption.csv");
-        fileNames.put("Fertilizer consumption (% of fertilizer production)", "Fertilizer_consumption_(% of fertilizer production).csv");
+        fileNames.put("Fertilizer consumption (kilograms per hectare of arable land)", "Fertilizer_consumption(kilograms_per_hectare_of_arable_land).csv");
+        fileNames.put("Fertilizer consumption (% of fertilizer production)", "Fertilizer_consumption(%offertilizerproduction).csv");
         fileNames.put("Total reserves in months of imports","TotalReservesInMonthsPerImport.csv");
         fileNames.put("Total reserves (includes gold, current US$)","TotalReservesInMonthsPerImport.csv");
         fileNames.put("Total reserves (% of total external debt)","TotalReservesInMonthsPerImport.csv");
+
         fileNames.put("GNI (current US$)","GNI.csv");
 
 
