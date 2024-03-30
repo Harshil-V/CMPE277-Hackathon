@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ public class Researcher extends AppCompatActivity {
     Spinner spinner;
     String[] countries = {"Select","USA", "India", "China"};
     FrameLayout frameLayout;
+    ImageView imageView;
     Button show;
     private String selectedCountry = "Select";
     private ArrayList<String> selectedCheckboxes = new ArrayList<>();
@@ -46,16 +48,24 @@ public class Researcher extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        imageView = findViewById(R.id.imageView);
         frameLayout = findViewById(R.id.researcherFrameLayout);
         frameLayout.addView(getLayoutInflater().inflate(R.layout.welcome_layout, null));
 
         TextView header = findViewById(R.id.activityHeader);
         header.setText("Macroeconomics Researcher");
 
+        imageView.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        });
+
         spinner = findViewById(R.id.countrySpinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, countries);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -91,7 +101,7 @@ public class Researcher extends AppCompatActivity {
                     Toast.makeText(Researcher.this, "Select Country", Toast.LENGTH_SHORT).show();
                 } else {
                     frameLayout.removeAllViews();
-                    replaceFragment(new GraphFragment(selectedCountry, selectedCheckboxes));
+                    replaceFragment(new GraphFragment(selectedCountry, selectedCheckboxes,"Reseacher"));
                 }
 
             });
@@ -111,7 +121,7 @@ public class Researcher extends AppCompatActivity {
                     Toast.makeText(Researcher.this, "Select Country", Toast.LENGTH_SHORT).show();
                 } else {
                     frameLayout.removeAllViews();
-                    replaceFragment(new GraphFragment(selectedCountry, selectedCheckboxes));
+                    replaceFragment(new GraphFragment(selectedCountry, selectedCheckboxes,"Reseacher"));
                 }
             });
             LinearLayout checkboxContainer = checkboxView.findViewById(R.id.checkboxContainer);
@@ -129,7 +139,7 @@ public class Researcher extends AppCompatActivity {
                     Toast.makeText(Researcher.this, "Select Country", Toast.LENGTH_SHORT).show();
                 } else {
                     frameLayout.removeAllViews();
-                    replaceFragment(new GraphFragment(selectedCountry, selectedCheckboxes));
+                    replaceFragment(new GraphFragment(selectedCountry, selectedCheckboxes, "Reseacher"));
                 }
             });
             LinearLayout checkboxContainer = checkboxView.findViewById(R.id.checkboxContainer);

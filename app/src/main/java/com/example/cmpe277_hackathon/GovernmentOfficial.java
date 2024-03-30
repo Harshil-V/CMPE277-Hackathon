@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class GovernmentOfficial extends AppCompatActivity {
     String[] countries = {"Select", "USA", "India", "China"};
 
     FrameLayout frameLayout;
+    ImageView imageView;
 
     Button show;
     private String selectedCountry = "Select";
@@ -58,8 +60,14 @@ public class GovernmentOfficial extends AppCompatActivity {
             return insets;
         });
 
+        imageView = findViewById(R.id.imageView);
         frameLayout = findViewById(R.id.officialFrameLayout);
         frameLayout.addView(getLayoutInflater().inflate(R.layout.welcome_layout, null));
+
+        imageView.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        });
 
         spinner = findViewById(R.id.countrySpinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, countries);
@@ -98,7 +106,7 @@ public class GovernmentOfficial extends AppCompatActivity {
                     Toast.makeText(GovernmentOfficial.this, "Select Country", Toast.LENGTH_SHORT).show();
                 } else {
                     frameLayout.removeAllViews();
-                    replaceFragment(new GraphFragment(selectedCountry, selectedCheckboxes));
+                    replaceFragment(new GraphFragment(selectedCountry, selectedCheckboxes, "Offical"));
                 }
 
             });
@@ -118,7 +126,7 @@ public class GovernmentOfficial extends AppCompatActivity {
                     Toast.makeText(GovernmentOfficial.this, "Select Country", Toast.LENGTH_SHORT).show();
                 } else {
                     frameLayout.removeAllViews();
-                    replaceFragment(new GraphFragment(selectedCountry, selectedCheckboxes));
+                    replaceFragment(new GraphFragment(selectedCountry, selectedCheckboxes,"Offical"));
                 }
             });
             LinearLayout checkboxContainer = checkboxView.findViewById(R.id.checkboxContainer);
@@ -136,7 +144,7 @@ public class GovernmentOfficial extends AppCompatActivity {
                     Toast.makeText(GovernmentOfficial.this, "Select Country", Toast.LENGTH_SHORT).show();
                 } else {
                     frameLayout.removeAllViews();
-                    replaceFragment(new GraphFragment(selectedCountry, selectedCheckboxes));
+                    replaceFragment(new GraphFragment(selectedCountry, selectedCheckboxes,"Offical"));
                 }
             });
             LinearLayout checkboxContainer = checkboxView.findViewById(R.id.checkboxContainer);

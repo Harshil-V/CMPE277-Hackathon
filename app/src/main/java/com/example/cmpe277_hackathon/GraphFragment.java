@@ -37,6 +37,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class GraphFragment extends Fragment {
 
@@ -48,13 +49,16 @@ public class GraphFragment extends Fragment {
     Button addAnnotation;
     boolean isFirstRow = true;
 
+    String user;
+
     private String selectedCountry;
     private ArrayList<String> selectedCheckboxes;
     private Map<String,String> fileNames = new HashMap<>();
 
-    public GraphFragment(String selectedCountry, ArrayList<String> selectedCheckboxes) {
+    public GraphFragment(String selectedCountry, ArrayList<String> selectedCheckboxes, String user) {
         this.selectedCountry = selectedCountry;
         this.selectedCheckboxes = selectedCheckboxes;
+        this.user = user;
     }
 
     private DatabaseHelper dbHelper;
@@ -89,6 +93,12 @@ public class GraphFragment extends Fragment {
         addAnnotation = rootView.findViewById(R.id.addAnnt);
 
         FILE_NAME = sortCharactersInStringList(selectedCheckboxes);
+
+        if (Objects.equals(user, "Offical")) {
+            addAnnotation.setEnabled(false);
+            addAnnotation.setVisibility(View.INVISIBLE);
+        }
+
         updateAnnotationButtonText();
 
 //        List<String> listOfStrings = Arrays.asList("banana", "apple", "orange");
@@ -311,6 +321,8 @@ public class GraphFragment extends Fragment {
         cartesian.yAxis(0).labels().format("{%Value}{scale:(1000)(1)(1000000)(1e-6)|(k)(M)(G)(µ)}");
         cartesian.xAxis(0).labels().enabled(true);
         cartesian.yAxis(0).labels().enabled(true);
+        cartesian.xAxis(0).title("Year");
+        cartesian.yAxis(0).title("USD");
         for (int i = 0; i < allDatasets.size(); i++) {
             List<DataEntry> dataset = allDatasets.get(i);
             cartesian.line(dataset).name("Dataset " + (i + 1));
