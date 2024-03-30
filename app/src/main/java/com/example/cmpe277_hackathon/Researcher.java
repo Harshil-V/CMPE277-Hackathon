@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -20,12 +21,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 public class Researcher extends AppCompatActivity {
 
     Spinner spinner;
     String[] countries = {"Select","USA", "IN", "CN"};
     FrameLayout frameLayout;
+    Button show;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -68,6 +72,7 @@ public class Researcher extends AppCompatActivity {
         ImageButton macrobtn = findViewById(R.id.macroButton);
         ImageButton agrbtn = findViewById(R.id.agricultureButton);
         ImageButton tradebtn = findViewById(R.id.tradeButton);
+        ImageButton openai = findViewById(R.id.openaiButton);
 
         macrobtn.setOnClickListener(view -> {
             frameLayout.removeAllViews();
@@ -92,6 +97,12 @@ public class Researcher extends AppCompatActivity {
             LinearLayout checkboxContainer = checkboxView.findViewById(R.id.checkboxContainer);
             addTradeCheckBoxes(checkboxContainer);
             frameLayout.addView(checkboxView);
+
+        });
+
+        openai.setOnClickListener(view -> {
+            frameLayout.removeAllViews();
+            replaceFragment(new ChatGPTFragment());
 
         });
     }
@@ -119,5 +130,12 @@ public class Researcher extends AppCompatActivity {
             checkBox.setText(label);
             container.addView(checkBox);
         }
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.researcherFrameLayout, fragment);
+        transaction.addToBackStack(null); // Optional: Add to back stack for back navigation
+        transaction.commit();
     }
 }
