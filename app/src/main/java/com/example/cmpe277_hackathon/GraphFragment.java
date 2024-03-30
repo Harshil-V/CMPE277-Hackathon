@@ -68,7 +68,6 @@ public class GraphFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.graph_layout, container, false);
 
         dbHelper = new DatabaseHelper(getActivity());
-//        int currentAnnotation = dbHelper.getAnnotationsCount(FILE_NAME);
 
         startYear = rootView.findViewById(R.id.startYear);
         endYear = rootView.findViewById(R.id.endYear);
@@ -78,10 +77,14 @@ public class GraphFragment extends Fragment {
         fileNames.put("FDI Outflows(USD)","FDI_Outflows(USD).csv");
         fileNames.put("Import/Export Flow", "Import_Export.csv");
         fileNames.put("Agricultural Contribution (% GDP)","Contribution_Agriculture.csv");
+
         fileNames.put("Manufacturing(%GDP)","Manufacturing(%GDP).csv");
         fileNames.put("Agriculture, forestry, and fishing, value added (annual % growth)","AFFNG.csv");
-        fileNames.put("Fertilizer consumption (kilograms per hectare of arable land)", "Fertilizer_consumption_old(kilograms_per_hectare_of_arable_land).csv");
-        fileNames.put("Fertilizer consumption (% of fertilizer production)", "Fertilizer_consumption(%offertilizerproduction).csv");
+
+        fileNames.put("Fertilizer consumption (kilograms per hectare of arable land)", "FC(KG).csv");
+        fileNames.put("Fertilizer consumption (% of fertilizer production)", "FC(FP).csv");
+
+
         fileNames.put("Total reserves in months of imports","TotalReservesInMonthsPerImport.csv");
         fileNames.put("Total reserves (includes gold, current US$)","TotalReservesInMonthsPerImport.csv");
         fileNames.put("Total reserves (% of total external debt)","TotalReservesInMonthsPerImport.csv");
@@ -98,12 +101,6 @@ public class GraphFragment extends Fragment {
         }
 
         updateAnnotationButtonText();
-
-//        List<String> listOfStrings = Arrays.asList("banana", "apple", "orange");
-//        String sortedString = sortCharactersInStringList(listOfStrings);
-
-//        Cartesian cartesian = AnyChart.line();
-//        List<DataEntry> data = parseCSVFile();
 
         startYear.setText("1960");
         endYear.setText("2020");
@@ -157,36 +154,6 @@ public class GraphFragment extends Fragment {
             return true;
         });
 
-
-
-//        int start = Integer.parseInt(startYear.getText().toString());
-//        int end = Integer.parseInt(endYear.getText().toString());
-//        List<DataEntry> filteredData = filterDataByYear(data, start, end);
-//
-//        // Add data to the chart
-//        cartesian.data(filteredData);
-//
-//        // Customize chart settings if needed
-//        cartesian.title("Line Chart from CSV Data");
-//
-//        // Set the chart to the AnyChartView
-//        AnyChartView anyChartView = rootView.findViewById(R.id.any_chart_view);
-//        anyChartView.setChart(cartesian);
-
-
-//        Pie pie = AnyChart.pie();
-//
-//        List<DataEntry> data = new ArrayList<>();
-//        data.add(new ValueDataEntry("John", 10000));
-//        data.add(new ValueDataEntry("Jake", 12000));
-//        data.add(new ValueDataEntry("Peter", 18000));
-//
-//        pie.data(data);
-//
-//        AnyChartView anyChartView = (AnyChartView) rootView.findViewById(R.id.any_chart_view);
-//        anyChartView.setChart(pie);
-
-
         return rootView;
     }
 
@@ -224,22 +191,6 @@ public class GraphFragment extends Fragment {
         dialog.show();
     }
 
-//    private void showGraphNameInputDialog(Context context) {
-//
-//
-//        AlertDialog dialog = new AlertDialog.Builder(context)
-//                .setTitle("View Annotations")
-//                .setMessage("Enter the graph name to view its annotations:")
-//
-//                .setPositiveButton("View", (dialog1, which) -> {
-//
-//                    List<String> annotations = dbHelper.getAnnotationsByGraphName(FILE_NAME);
-//                    showAnnotationsDialog(context, annotations);
-//                })
-//                .setNegativeButton("Cancel", null)
-//                .create();
-//        dialog.show();
-//    }
 
     private void showAnnotationsDialog(Context context, @NonNull List<String> annotations) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -360,16 +311,4 @@ public class GraphFragment extends Fragment {
         return new String(charArray);
     }
 
-//    private List<DataEntry> filterDataByYear(List<DataEntry> data, int startYear, int endYear) {
-//        List<DataEntry> filteredData = new ArrayList<>();
-//        for (DataEntry entry : data) {
-//            // Assuming xValue is the year part of the date (e.g., "2020-Q1" where "2020" is the year)
-//            String xValue = entry.getValue("x").toString(); // Extracting year part
-//            int year = Integer.parseInt(xValue);
-//            if (year >= startYear && year <= endYear) {
-//                filteredData.add(entry);
-//            }
-//        }
-//        return filteredData;
-//    }
 }

@@ -67,13 +67,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String[] selectionArgs = { graphName };
 
         Cursor cursor = db.query(
-                TABLE_NAME,   // The table to query
-                projection,   // The columns to return
-                selection,    // The columns for the WHERE clause
-                selectionArgs,// The values for the WHERE clause
-                null,         // don't group the rows
-                null,         // don't filter by row groups
-                null          // The sort order
+                TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
         );
 
         while (cursor.moveToNext()) {
@@ -92,13 +92,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String[] selectionArgs = { graphName };
 
         Cursor cursor = db.query(
-                TABLE_NAME,           // The table to query
-                new String[] { "COUNT(*) as count" }, // The columns to return
-                selection,            // The columns for the WHERE clause
-                selectionArgs,        // The values for the WHERE clause
-                null,         // don't group the rows
-                null,          // don't filter by row groups
-                null          // The sort order
+                TABLE_NAME,
+                new String[] { "COUNT(*) as count" },
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null          
         );
 
         int count = 0;
