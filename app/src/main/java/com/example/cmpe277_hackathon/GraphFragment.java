@@ -1,5 +1,6 @@
 package com.example.cmpe277_hackathon;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -44,18 +45,24 @@ public class GraphFragment extends Fragment {
     private DatabaseHelper dbHelper;
     private String FILE_NAME = "GDP(USD).csv";
 
+    private int currentAnnotation;
+
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.graph_layout, container, false);
 
         dbHelper = new DatabaseHelper(getActivity());
-
+        currentAnnotation = dbHelper.getAnnotationsCount(FILE_NAME);
 
         startYear = rootView.findViewById(R.id.startYear);
         endYear = rootView.findViewById(R.id.endYear);
         anyChartView = rootView.findViewById(R.id.any_chart_view);
         addAnnotation = rootView.findViewById(R.id.addAnnt);
 
+        if (currentAnnotation > 0) {
+            addAnnotation.setText(addAnnotation.getText().toString() + " (" + currentAnnotation + ")");
+        }
 
 //        Cartesian cartesian = AnyChart.line();
 //        List<DataEntry> data = parseCSVFile();

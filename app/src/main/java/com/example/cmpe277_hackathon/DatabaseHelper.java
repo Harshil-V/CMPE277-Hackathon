@@ -85,4 +85,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return annotations;
     }
+
+    public int getAnnotationsCount(String graphName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selection = COLUMN_GRAPH_NAME + " = ?";
+        String[] selectionArgs = { graphName };
+
+        Cursor cursor = db.query(
+                TABLE_NAME,           // The table to query
+                new String[] { "COUNT(*) as count" }, // The columns to return
+                selection,            // The columns for the WHERE clause
+                selectionArgs,        // The values for the WHERE clause
+                null,         // don't group the rows
+                null,          // don't filter by row groups
+                null          // The sort order
+        );
+
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
+    }
+
 }
