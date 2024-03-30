@@ -160,7 +160,11 @@ public class Researcher extends AppCompatActivity {
         }
     }
     private void addAgricultureCheckBoxes(LinearLayout container) {
-        String[] checkboxLabels = {"Contribution to GDP", "Credit", "Fertilizers", "Fertilizer Production"};
+        String[] checkboxLabels = {"Agricultural Contribution (% GDP)",
+                "Manufacturing(%GDP)",
+                "Agriculture, forestry, and fishing, value added (annual % growth)",
+                "Fertilizer consumption (kilograms per hectare of arable land)",
+                "Fertilizer consumption (% of fertilizer production)"};
         for (String label : checkboxLabels) {
             CheckBox checkBox = new CheckBox(this);
             checkBox.setText(label);
@@ -175,7 +179,10 @@ public class Researcher extends AppCompatActivity {
         }
     }
     private void addTradeCheckBoxes(LinearLayout container) {
-        String[] checkboxLabels = {"Reserves", "GNI", "Total Debt", "GNI(current US$"};
+        String[] checkboxLabels = {"Total reserves in months of imports",
+                "Total reserves (includes gold, current US$)",
+                "Total reserves (% of total external debt)",
+                "GNI (current US$)"};
         for (String label : checkboxLabels) {
             CheckBox checkBox = new CheckBox(this);
             checkBox.setText(label);

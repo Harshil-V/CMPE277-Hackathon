@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.anychart.AnyChart;
@@ -17,19 +16,15 @@ import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Cartesian;
-import com.anychart.charts.Pie;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class GraphFragment extends Fragment {
 
@@ -58,7 +53,16 @@ public class GraphFragment extends Fragment {
         fileNames.put("GDP(USD)","GDP(USD).csv");
         fileNames.put("FDI Inflows(USD)","FDI_Inflows(USD).csv");
         fileNames.put("FDI Outflows(USD)","FDI_Outflows(USD).csv");
-        fileNames.put("Import/Export Flow","Import_Export.csv");
+        fileNames.put("Agricultural Contribution (% GDP)","Contribution_Agricultural.csv");
+        fileNames.put("Manufacturing(%GDP)","Manufacturing(%GDP).csv");
+        fileNames.put("Agriculture, forestry, and fishing, value added (annual % growth)","AFFNG.csv");
+        fileNames.put("Fertilizer consumption (kilograms per hectare of arable land)","FertilizerConsumption.csv");
+        fileNames.put("Fertilizer consumption (% of fertilizer production)", "Fertilizer_consumption_(% of fertilizer production).csv");
+        fileNames.put("Total reserves in months of imports","TotalReservesInMonthsPerImport.csv");
+        fileNames.put("Total reserves (includes gold, current US$)","TotalReservesInMonthsPerImport.csv");
+        fileNames.put("Total reserves (% of total external debt)","TotalReservesInMonthsPerImport.csv");
+        fileNames.put("GNI (current US$)","GNI.csv");
+
 
 //        Cartesian cartesian = AnyChart.line();
 //        List<DataEntry> data = parseCSVFile();
