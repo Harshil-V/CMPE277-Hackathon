@@ -24,12 +24,16 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.util.ArrayList;
+
 public class Researcher extends AppCompatActivity {
 
     Spinner spinner;
     String[] countries = {"Select","USA", "IN", "CN"};
     FrameLayout frameLayout;
     Button show;
+    private String selectedCountry = "Select";
+    private ArrayList<String> selectedCheckboxes = new ArrayList<>();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -74,9 +78,17 @@ public class Researcher extends AppCompatActivity {
         ImageButton tradebtn = findViewById(R.id.tradeButton);
         ImageButton openai = findViewById(R.id.openaiButton);
 
+
+
         macrobtn.setOnClickListener(view -> {
+
             frameLayout.removeAllViews();
             View checkboxView = LayoutInflater.from(this).inflate(R.layout.checkbox_layout,null);
+            show = checkboxView.findViewById(R.id.show);
+            show.setOnClickListener(view2 -> {
+                frameLayout.removeAllViews();
+                replaceFragment(new GraphFragment());
+            });
             LinearLayout checkboxContainer = checkboxView.findViewById(R.id.checkboxContainer);
             addMacroCheckBoxes(checkboxContainer);
             frameLayout.addView(checkboxView);
@@ -86,6 +98,11 @@ public class Researcher extends AppCompatActivity {
         agrbtn.setOnClickListener(view -> {
             frameLayout.removeAllViews();
             View checkboxView = LayoutInflater.from(this).inflate(R.layout.checkbox_layout,null);
+            show = checkboxView.findViewById(R.id.show);
+            show.setOnClickListener(view2 -> {
+                frameLayout.removeAllViews();
+                replaceFragment(new GraphFragment());
+            });
             LinearLayout checkboxContainer = checkboxView.findViewById(R.id.checkboxContainer);
             addAgricultureCheckBoxes(checkboxContainer);
             frameLayout.addView(checkboxView);
@@ -94,10 +111,14 @@ public class Researcher extends AppCompatActivity {
         tradebtn.setOnClickListener(view -> {
             frameLayout.removeAllViews();
             View checkboxView = LayoutInflater.from(this).inflate(R.layout.checkbox_layout,null);
+            show = checkboxView.findViewById(R.id.show);
+            show.setOnClickListener(view2 -> {
+                frameLayout.removeAllViews();
+                replaceFragment(new GraphFragment());
+            });
             LinearLayout checkboxContainer = checkboxView.findViewById(R.id.checkboxContainer);
             addTradeCheckBoxes(checkboxContainer);
             frameLayout.addView(checkboxView);
-
         });
 
         openai.setOnClickListener(view -> {
